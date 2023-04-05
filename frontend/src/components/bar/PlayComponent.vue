@@ -29,17 +29,20 @@
       </div>
     </div>
 
-    <div class="row justify-content-md-center p-3" v-if="diff_level">
-
+    <div class="row justify-content-md-center p-3" v-if="!start">
+      <questions-page :questions="questions"></questions-page>
     </div>
   </div>
 </template>
 
 
 <script>
+import QuestionsPage from "@/components/QuestionsPage.vue";
+
 const url = "http://localhost:8080/question/";
 
 export default {
+  components: {QuestionsPage},
   data() {
     return {
       diff_level: null,
@@ -54,7 +57,7 @@ export default {
       console.log('Уровень сложности установлен: ' + this.diff_level);
     },
     async load_questions() {
-      this.start = false;
+
 
       let jsonArray = await fetch(url + this.diff_level, {
         method: "GET",
@@ -62,15 +65,12 @@ export default {
         .then(response => response.json())
 
       this.questions =  jsonArray;
+      this.start = false;
       let length = this.questions.length;
 
-      console.log('array: ')
-      for (let i = 0; i < length; i++) {
-        console.log("obj: " + this.questions[i].text);
-      }
-
-      console.log("length: " + this.questions.length)
+      console.log("length: " + length)
       console.log("questions: " + JSON.stringify(this.questions))
+
     }
   }
 
