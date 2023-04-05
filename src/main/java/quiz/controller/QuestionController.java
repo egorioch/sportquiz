@@ -21,7 +21,7 @@ public class QuestionController {
     public ArrayList<Question> questionList(@PathVariable("difficulty") String difficulty) {
         ArrayList<Question> questionsFromDB = (ArrayList<Question>) questionRepo.findAll();
         ArrayList<Question> correctDifficultyQuestions = new ArrayList<>();
-        System.out.println("сложность: " + difficulty);
+
         for (var question: questionsFromDB) {
             System.out.println(question);
             if (question.getDifficulty().equals(difficulty)) {

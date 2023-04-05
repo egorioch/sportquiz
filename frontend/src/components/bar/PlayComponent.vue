@@ -30,7 +30,11 @@
     </div>
 
     <div class="row justify-content-md-center p-3" v-if="!start">
-      <questions-page :questions="questions"></questions-page>
+      <questions-page
+        :questions="questions"
+        :coins="coins"
+      >
+      </questions-page>
     </div>
   </div>
 </template>
@@ -40,6 +44,7 @@
 import QuestionsPage from "@/components/QuestionsPage.vue";
 
 const url = "http://localhost:8080/question/";
+const urlLogin = "http://localhost:8080/login/";
 
 export default {
   components: {QuestionsPage},
@@ -48,8 +53,17 @@ export default {
       diff_level: null,
       start: true,
       questions: [],
-      current_question: {}
+      current_question: {},
+      coins: 0
     }
+  },
+  async created() {
+    this.coins = await fetch(urlLogin + 0, {
+      method: "GET"
+    })
+      .then(response => response.json());
+
+    console.log('coins: ' + this.coins)
   },
   methods: {
     setDiffLevel(level) {

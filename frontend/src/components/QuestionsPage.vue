@@ -6,7 +6,7 @@
     <div class="row">
       <div class="row">
         <i class="col bi bi-coin"></i>
-        <span class="col">{{ this.coins }}</span>
+        <span class="col">{{ this.currentCoins }}</span>
       </div>
 
       <span class="border border-danger" v-if="this.incorrectAnswer">Ответ неверный!</span>
@@ -25,27 +25,26 @@
       <button class="btn btn-primary p-3" @click="checkAnswer(this.userAnswer)">Отправить</button>
     </div>
   </div>
-
-
 </template>
 
 <script>
+
 export default {
-  props: ['questions'],
+  props: ['questions', 'coins'],
   data() {
     return {
       //текущий вопрос по индексу
       currentQuestion: this.questions[0],
       //ответ пользователя
       userAnswer: "",
-      //текущее число монет
-      coins: 0,
+      currentCoins: this.coins,
       //текущий индекс вопроса(инкрементируется, если ответ правильный)
       questionIndex: 0,
       //маячок, показывающий неверный ответ
       incorrectAnswer: false
     }
   },
+
   methods: {
     checkAnswer(correctAnswer) {
       console.log("currentQUE: " + JSON.stringify(this.currentQuestion))
@@ -53,7 +52,7 @@ export default {
       console.log("корректный ответ: " + correctAnswer);
       console.log("ответ юзера: " + this.userAnswer)
       if (this.userAnswer === correctAnswer) {
-        this.coins = this.coins + 1;
+        this.currentCoins= this.currentCoins + 1;
         this.questionIndex++;
         this.incorrectAnswer = false;
       } else {

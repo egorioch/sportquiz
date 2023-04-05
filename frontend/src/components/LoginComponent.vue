@@ -8,22 +8,24 @@
 
               <div class="mb-md-5 mt-md-4 pb-5">
 
-                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                <p class="text-white-50 mb-5">Please enter your login and password!</p>
+                <h2 class="fw-bold mb-2 text-uppercase">Авторизация</h2>
+                <p class="text-white-50 mb-5">Введите свой логин и пароль!</p>
 
                 <div class="form-outline form-white mb-4">
                   <input id="typeEmailX" class="form-control form-control-lg"
                          v-model="login"
                   />
-                  <label class="form-label" for="typeEmailX">Email</label>
+                  <label class="form-label" for="typeEmailX">Логин</label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-                  <label class="form-label" for="typePasswordX">Password</label>
+                  <input type="password" id="typePasswordX" class="form-control form-control-lg"
+                         v-model="password"
+                  />
+                  <label class="form-label" for="typePasswordX">Пароль</label>
                 </div>
 
-                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">Войти</button>
 
               </div>
             </div>
@@ -36,10 +38,16 @@
 
 <script>
   export default {
+
     data() {
       return {
         login: "",
         password: ""
+      }
+    },
+    methods: {
+      loginMethod() {
+
       }
     }
   }
