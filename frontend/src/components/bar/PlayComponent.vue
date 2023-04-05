@@ -22,9 +22,12 @@
     <div class="row justify-content-md-center">
       <div class="col-md-auto p-2">
         <div class="d-grid gap-2">
-          <button class="btn btn-success fs-3" v-if="diff_level" @click="load_questions()">
-            Начать
-          </button>
+          <div class="row">
+            <div class="col justify-center">timer: {{ this.seconds_remaining }} </div>
+            <button class="col btn btn-success fs-3" v-if="diff_level && start" @click="load_questions(); timer()">
+              Начать
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -44,7 +47,7 @@
 import QuestionsPage from "@/components/QuestionsPage.vue";
 
 const url = "http://localhost:8080/question/";
-const urlLogin = "http://localhost:8080/login/";
+const urlLogin = "http://localhost:8080/user/";
 
 export default {
   components: {QuestionsPage},
@@ -54,16 +57,18 @@ export default {
       start: true,
       questions: [],
       current_question: {},
-      coins: 0
+      coins: 0,
+      time_end: false,
+      seconds_remaining: 10
     }
   },
   async created() {
-    this.coins = await fetch(urlLogin + 0, {
+    this.user = await fetch(urlLogin + 0, {
       method: "GET"
     })
       .then(response => response.json());
 
-    console.log('coins: ' + this.coins)
+    this.coins = this.user.coins;
   },
   methods: {
     setDiffLevel(level) {
@@ -71,8 +76,6 @@ export default {
       console.log('Уровень сложности установлен: ' + this.diff_level);
     },
     async load_questions() {
-
-
       let jsonArray = await fetch(url + this.diff_level, {
         method: "GET",
       })
@@ -85,6 +88,32 @@ export default {
       console.log("length: " + length)
       console.log("questions: " + JSON.stringify(this.questions))
 
+    },
+    async timer() {
+      this.seconds_remaining--;
+      if (this.seconds_remaining < 0) {
+        alert('Время вышло');
+        this.seconds_remaining = 60;
+        this.start = true;
+        this.user.coins = this.coins;
+
+        await fetch(urlLogin + 0, {
+          method: "PUT",
+          body: JSON.stringify(this.user),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        }).then(response => console.log("RESPONSE: " + JSON.stringify(response)))
+          .catch(error => console.log("ERROR RESPONSE: " + JSON.stringify(error)))
+      } else {
+        setTimeout(this.timer, 1000);
+      }
+    },
+    watch: {
+      coins() {
+        console.log('новые коинсы: ' + this.coins());
+      }
     }
   }
 

@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <div v-for="que in questions" :key="que.id">
-      <div>{{ que.text }}</div>
-    </div>
+
     <div class="row">
       <div class="row">
         <i class="col bi bi-coin"></i>
@@ -22,7 +20,7 @@
 
     <div class="row justify-content-md-center">
       <input class="p-2 m-2" v-model="this.userAnswer" placeholder="Ваш ответ">
-      <button class="btn btn-primary p-3" @click="checkAnswer(this.userAnswer)">Отправить</button>
+      <button class="btn btn-primary p-3" @click="checkAnswer(this.currentQuestion.answer)">Отправить</button>
     </div>
   </div>
 </template>
@@ -41,26 +39,35 @@ export default {
       //текущий индекс вопроса(инкрементируется, если ответ правильный)
       questionIndex: 0,
       //маячок, показывающий неверный ответ
-      incorrectAnswer: false
+      incorrectAnswer: false,
+
     }
   },
 
   methods: {
-    checkAnswer(correctAnswer) {
-      console.log("currentQUE: " + JSON.stringify(this.currentQuestion))
+    async checkAnswer(correctAnswer) {
 
-      console.log("корректный ответ: " + correctAnswer);
-      console.log("ответ юзера: " + this.userAnswer)
       if (this.userAnswer === correctAnswer) {
         this.currentCoins= this.currentCoins + 1;
-        this.questionIndex++;
+
+        //меняем данные родительского компонента:
+        this.$emit("coins", this.currentCoins)
+
+        //если индекс достиг конца массива - остановка
+        if (this.questionIndex === this.questions.length - 1) {
+          this.$emit('start', true)
+        } else {
+          this.questionIndex++;
+        }
+
         this.incorrectAnswer = false;
       } else {
         this.incorrectAnswer = true;
       }
 
       this.userAnswer = "";
-    }
+    },
+
   },
   watch: {
     questionIndex() {

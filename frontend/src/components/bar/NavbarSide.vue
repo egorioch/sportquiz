@@ -10,6 +10,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/play">Викторина</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shop">Магазин</a>
+                    </li>
                 </ul>
                 <form class="d-flex">
                     <button class="btn btn-primary" type="button">Личный кабинет</button>

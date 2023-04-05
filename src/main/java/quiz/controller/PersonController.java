@@ -1,12 +1,14 @@
 package quiz.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import quiz.model.Person;
 import quiz.repo.PersonRepo;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:8000")
 public class PersonController {
     private final PersonRepo personRepo;
 
@@ -15,8 +17,9 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Person getPerson(@PathVariable("id") long id) {
-        return personRepo.getReferenceById(id);
+        return personRepo.getById(id);
     }
 
     @PutMapping("/{id}")

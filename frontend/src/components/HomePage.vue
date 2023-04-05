@@ -15,7 +15,9 @@
     <div class="row justify-content-md-center">
       <div class="col-md-auto p-2">
         <div class="d-grid gap-4">
-          <button class="btn btn-success">Магазин</button>
+          <router-link to="/shop" class="btn btn-success fs-4">
+            Магазин
+          </router-link>
         </div>
       </div>
     </div>

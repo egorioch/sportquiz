@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import HomePage from "@/components/HomePage.vue";
 import PlayComponent from "@/components/bar/PlayComponent.vue";
 import LoginComponent from "@/components/LoginComponent.vue";
+import ShopComponent from "@/components/ShopComponent.vue";
 
 export default createRouter({
   history: createWebHistory(),
@@ -21,6 +22,11 @@ export default createRouter({
       path: '/login',
       name: 'LoginComponent',
       component: LoginComponent
+    },
+    {
+      path: '/shop',
+      name: 'ShopComponent',
+      component: ShopComponent
     }
   ]
 })
